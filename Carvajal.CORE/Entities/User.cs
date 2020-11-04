@@ -1,8 +1,9 @@
-﻿namespace Carvajal.CORE.Entities
+﻿using Carvajal.CORE.Entities.Base;
+
+namespace Carvajal.CORE.Entities
 {
-    public partial class User
+    public partial class User : BaseEntity
     {
-        public int Iduser { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
         public int Cardid { get; set; }

@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Carvajal.CORE.Interfaces;
 using Carvajal.INFRASTRUCTURE.Data;
+using Carvajal.INFRASTRUCTURE.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Carvajal.API
 {
@@ -30,9 +25,12 @@ namespace Carvajal.API
             services.AddControllers();
 
             //Agregamos la conexion
-            services.AddDbContext<UsuariosContext>(opt => {
+            services.AddDbContext<UsuariosContext>(opt =>
+            {
                 opt.UseSqlServer(Configuration.GetConnectionString("DBCon"));
             });
+
+            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
