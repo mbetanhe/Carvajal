@@ -1,5 +1,6 @@
 ﻿using Carvajal.CORE.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Carvajal.INFRASTRUCTURE.Data
 {
@@ -19,64 +20,14 @@ namespace Carvajal.INFRASTRUCTURE.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=Usuarios;Trusted_Connection=True;");
-            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cards>(entity =>
-            {
-                entity.HasKey(e => e.Cardid);
 
-                entity.ToTable("CARDS");
-
-                entity.Property(e => e.Cardid).HasColumnName("CARDID");
-
-                entity.Property(e => e.Description)
-                    .HasColumnName("DESCRIPTION")
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.Iduser);
-
-                entity.ToTable("USER");
-
-                entity.Property(e => e.Iduser).HasColumnName("IDUSER");
-
-                entity.Property(e => e.Cardid).HasColumnName("CARDID");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasColumnName("EMAIL")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Id)
-                    .IsRequired()
-                    .HasColumnName("ID")
-                    .HasMaxLength(11);
-
-                entity.Property(e => e.Lastname)
-                    .IsRequired()
-                    .HasColumnName("LASTNAME")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("NAME")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnName("PASSWORD")
-                    .HasMaxLength(16);
-            });
+            //Aplicamos las configuraciones
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             OnModelCreatingPartial(modelBuilder);
         }
